@@ -1,24 +1,26 @@
 import React, { useState } from "react";
 import { Table, Button } from "react-bootstrap";
+import AddProduct from "./AddProduct";
 
 const ProductList = () => {
-  // Danh sách sản phẩm mẫu
   const [products, setProducts] = useState([
     { name: "Sản phẩm A", price: "100,000 VND", category: "Danh mục 1", stock: 10 },
     { name: "Sản phẩm B", price: "200,000 VND", category: "Danh mục 2", stock: 5 },
-    { name: "Sản phẩm C", price: "150,000 VND", category: "Danh mục 3", stock: 8 },
   ]);
 
-  // Hàm xoá sản phẩm
-  const deleteProduct = (index) => {
-    const newProducts = [...products];
-    newProducts.splice(index, 1);
-    setProducts(newProducts);
+  // Hàm thêm sản phẩm mới
+  const addProduct = (product) => {
+    setProducts([...products, product]);
   };
 
   return (
     <div className="container mt-4">
       <h1 className="mb-4">Danh sách sản phẩm</h1>
+
+      {/* Form thêm sản phẩm */}
+      <AddProduct onAddProduct={addProduct} />
+
+      {/* Bảng danh sách sản phẩm */}
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -39,7 +41,11 @@ const ProductList = () => {
               <td>
                 <Button
                   variant="danger"
-                  onClick={() => deleteProduct(index)}
+                  onClick={() => {
+                    const newProducts = [...products];
+                    newProducts.splice(index, 1);
+                    setProducts(newProducts);
+                  }}
                 >
                   Xoá
                 </Button>
