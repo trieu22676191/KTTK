@@ -13,6 +13,13 @@ const ProductList = () => {
     setProducts([...products, product]);
   };
 
+  // Hàm xóa sản phẩm
+  const deleteProduct = (index) => {
+    const newProducts = [...products];
+    newProducts.splice(index, 1); // Xóa sản phẩm tại vị trí index
+    setProducts(newProducts);
+  };
+
   return (
     <div className="container mt-4">
       <h1 className="mb-4">Danh sách sản phẩm</h1>
@@ -41,11 +48,7 @@ const ProductList = () => {
               <td>
                 <Button
                   variant="danger"
-                  onClick={() => {
-                    const newProducts = [...products];
-                    newProducts.splice(index, 1);
-                    setProducts(newProducts);
-                  }}
+                  onClick={() => deleteProduct(index)}
                 >
                   Xoá
                 </Button>
