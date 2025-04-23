@@ -1,27 +1,27 @@
-import React, { useState } from "react";
+import React from "react";
 import { Table, Button } from "react-bootstrap";
 import AddProduct from "./AddProduct";
 import FindProduct from "./FindProduct";
 import FilterByCategory from "./FilterByCategory";
-import ProductSummary from "./ProductSummary"; // Import ProductSummary
+import ProductSummary from "./ProductSummary";
+import useLocalStorage from "./useLocalStorage"; // Import hook
 
 const ProductList = () => {
-  const [products, setProducts] = useState([
+  // Sử dụng useLocalStorage để lưu danh sách sản phẩm
+  const [products, setProducts] = useLocalStorage("products", [
     { name: "Áo thun", price: "100,000 VND", category: "Thời trang", stock: 10 },
     { name: "Điện thoại", price: "5,000,000 VND", category: "Công nghệ", stock: 5 },
     { name: "Nồi cơm điện", price: "1,000,000 VND", category: "Gia dụng", stock: 8 },
     { name: "Quần jeans", price: "200,000 VND", category: "Thời trang", stock: 15 },
-    { name: "Bình đun nuóc", price: "1,000,000 VND", category: "Gia dụng", stock: 12 },
-    { name: "Máy tính", price: "15,000,000 VND", category: "Công nghệ", stock: 20 },
   ]);
 
-  const [filteredProducts, setFilteredProducts] = useState(products);
+  const [filteredProducts, setFilteredProducts] = React.useState(products);
 
   const categories = ["Thời trang", "Công nghệ", "Gia dụng"];
 
   const addProduct = (product) => {
     const updatedProducts = [...products, product];
-    setProducts(updatedProducts);
+    setProducts(updatedProducts); // Cập nhật localStorage
     setFilteredProducts(updatedProducts);
   };
 
@@ -41,9 +41,13 @@ const ProductList = () => {
   const deleteProduct = (index) => {
     const newProducts = [...products];
     newProducts.splice(index, 1);
-    setProducts(newProducts);
+    setProducts(newProducts); // Cập nhật localStorage
     setFilteredProducts(newProducts);
   };
+
+  React.useEffect(() => {
+    setFilteredProducts(products); // Đồng bộ danh sách khi load lại trang
+  }, [products]);
 
   return (
     <div className="container mt-4">
